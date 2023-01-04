@@ -51,6 +51,9 @@ public class StudentEntity {
     @Column(name = "student_email")
     private String student_email;
 
+    @Column(name = "student_password")
+    private String student_password;
+
     @Column(name = "student_birth_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date student_birth_date;

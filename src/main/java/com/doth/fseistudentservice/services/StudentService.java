@@ -6,6 +6,7 @@ import com.doth.fseistudentservice.repository.StudentDataAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +37,14 @@ public class StudentService {
     }
 
     public List<StudentDTO> getByStudentLevel(String studiesLevel) {
-        System.out.println("All students where level = " + studiesLevel );
+        System.out.println("All students where level = " + studiesLevel);
         List<StudentEntity> entities = studentDAO.getAllStudentsByStudiesLevel(studiesLevel);
 
         return entities.stream().map(StudentDTO::toDTO).toList();
     }
 
     public List<StudentDTO> getByStudentField(String studiesField) {
-        System.out.println("All students where field = " + studiesField );
+        System.out.println("All students where field = " + studiesField);
         List<StudentEntity> entities = studentDAO.getAllStudentsByStudiesField(studiesField);
         return entities.stream().map(StudentDTO::toDTO).toList();
     }
@@ -59,11 +60,19 @@ public class StudentService {
         }
     }
 
-    public void createStudent(StudentDTO student) {
+    public boolean createStudent(StudentDTO student) {
         System.out.println("creating student : " + student.toString());
 
-        studentDAO.save(StudentDTO.toEntity(student));
+        if (studentDAO.findStudentEntityByStudent_registration_number(student.getStudent_registration_number()) == null) {
+            studentDAO.save(StudentDTO.toEntity(student));
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    public boolean checkStudent(String email, String password) {
+        return studentDAO.findStudentEntityByStudent_emailAndAndStudent_password(email, password) != null;
     }
 
     public void updateStudent(StudentDTO studentDTO) {
