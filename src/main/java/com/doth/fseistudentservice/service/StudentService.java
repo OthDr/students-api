@@ -1,17 +1,13 @@
-package com.doth.fseistudentservice.services;
+package com.doth.fseistudentservice.service;
 
 import com.doth.fseistudentservice.dataTransfer.StudentDTO;
 import com.doth.fseistudentservice.entity.StudentEntity;
 import com.doth.fseistudentservice.repository.StudentDataAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentService {

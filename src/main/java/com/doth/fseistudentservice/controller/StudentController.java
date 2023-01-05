@@ -1,8 +1,8 @@
-package com.doth.fseistudentservice.controllers;
+package com.doth.fseistudentservice.controller;
 
 import com.doth.fseistudentservice.dataTransfer.Credentials;
 import com.doth.fseistudentservice.dataTransfer.StudentDTO;
-import com.doth.fseistudentservice.services.StudentService;
+import com.doth.fseistudentservice.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
