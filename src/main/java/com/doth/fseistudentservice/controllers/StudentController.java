@@ -81,17 +81,18 @@ public class StudentController {
     @DeleteMapping("/delete-student/{student_id}")
     public ResponseEntity<?> deleteStudent(@RequestBody StudentDTO student) {
 
-        if (studentService.deleteStudent(student)) {
-            try {
-                studentService.deleteStudent(student);
+        try {
+            if (studentService.deleteStudent(student)) {
                 return ResponseEntity.ok().body("Deleted:" + student);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                return ResponseEntity.internalServerError().body(HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
             }
-        } else {
-            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseEntity.internalServerError().body(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
 
