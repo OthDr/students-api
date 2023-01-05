@@ -4,7 +4,6 @@ import com.doth.fseistudentservice.dataTransfer.Credentials;
 import com.doth.fseistudentservice.dataTransfer.StudentDTO;
 import com.doth.fseistudentservice.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,8 @@ import java.util.List;
 @RequestMapping("api/v1/student")
 @CrossOrigin(allowedHeaders = "*", origins = "*")
 
-public class StudentController {
 
+public class StudentController {
     StudentService studentService;
 
     @Autowired
@@ -33,7 +32,6 @@ public class StudentController {
     @GetMapping("/all-students/level/{studiesLevel}")
     public List<StudentDTO> getByStudentLevel(@PathVariable String studiesLevel) {
         System.out.println("All students of :" + studiesLevel);
-
         return studentService.getByStudentLevel(studiesLevel);
     }
 
@@ -47,10 +45,8 @@ public class StudentController {
     @GetMapping("/student-infos/{student_id}")
     public StudentDTO getStudent(@PathVariable String student_id) {
         System.out.println("student with id" + student_id);
-
         return studentService.getStudent(student_id);
     }
-
 
     @PostMapping("/create-student")
     public ResponseEntity<?> createStudent(@RequestBody StudentDTO student) {
@@ -80,19 +76,16 @@ public class StudentController {
 
     @DeleteMapping("/delete-student/{student_id}")
     public ResponseEntity<?> deleteStudent(@RequestBody StudentDTO student) {
-
         try {
             if (studentService.deleteStudent(student)) {
                 return ResponseEntity.ok().body("Deleted:" + student);
             } else {
                 return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
             }
-
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseEntity.internalServerError().body(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
 
