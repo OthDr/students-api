@@ -4,12 +4,12 @@ import com.doth.fseistudentservice.dataTransfer.Credentials;
 import com.doth.fseistudentservice.dataTransfer.StudentDTO;
 import com.doth.fseistudentservice.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMessage;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("api/v1/student")
@@ -53,17 +53,17 @@ public class StudentController {
 
 
     @PostMapping("/create-student")
-    public ResponseEntity createStudent(@RequestBody StudentDTO student) {
+    public ResponseEntity<?> createStudent(@RequestBody StudentDTO student) {
         System.out.println(student);
         if (studentService.createStudent(student)) {
             return ResponseEntity.ok().body("Student successfully created");
         } else {
-            return ResponseEntity.badRequest().body("Error: student number already exists" + "student :" +student.getStudent_firstname()+" "+student.getStudent_lastname());
+            return ResponseEntity.badRequest().body("Error: student number already exists" + "student :" + student.getStudent_firstname() + " " + student.getStudent_lastname());
         }
     }
 
     @PostMapping("/profile")
-    public ResponseEntity signStudent(@RequestBody Credentials credentials) {
+    public ResponseEntity<?> signStudent(@RequestBody Credentials credentials) {
         System.out.println(credentials);
         if (studentService.checkStudent(credentials.getEmail(), credentials.getPassword())) {
             return ResponseEntity.ok().body("student signed in");
@@ -79,9 +79,19 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete-student/{student_id}")
-    public void deleteStudent(@PathVariable String student_id, @RequestBody String data) {
+    public ResponseEntity<?> deleteStudent(@RequestBody StudentDTO student) {
 
-        System.out.println("student deleted ID:" + student_id);
+        if (studentService.deleteStudent(student)) {
+            try {
+                studentService.deleteStudent(student);
+                return ResponseEntity.ok().body("Deleted:" + student);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                return ResponseEntity.internalServerError().body(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return ResponseEntity.badRequest().body(HttpStatus.BAD_REQUEST);
+        }
     }
 
 

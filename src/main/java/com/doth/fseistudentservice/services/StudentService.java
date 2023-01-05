@@ -81,9 +81,14 @@ public class StudentService {
         System.out.println("Student updated");
     }
 
-    public void deleteStudent(String student_id, String data) {
-
-        System.out.println("student deleted ID:" + student_id);
+    public boolean deleteStudent(StudentDTO student) {
+        if (studentDAO.findStudentEntityByStudent_registration_number(student.getStudent_registration_number()) != null) {
+            studentDAO.deleteById(student.getStudent_id());
+            System.out.println("student deleted ID:" + student.getStudent_id());
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
