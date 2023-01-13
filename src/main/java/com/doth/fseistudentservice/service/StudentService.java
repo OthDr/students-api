@@ -87,4 +87,7 @@ public class StudentService {
         }
     }
 
+    public void updateStudentLevel(String level) {
+
+    }
 }

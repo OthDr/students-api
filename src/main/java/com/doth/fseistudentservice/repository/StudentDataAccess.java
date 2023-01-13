@@ -23,4 +23,6 @@ public interface StudentDataAccess extends JpaRepository<StudentEntity, Long> {
     @Query(value = "SELECT * FROM `students` WHERE `student_registration_number` = :student_registration_number", nativeQuery = true)
     StudentEntity findStudentEntityByStudent_registration_number(Long student_registration_number);
 
+
+
 }
